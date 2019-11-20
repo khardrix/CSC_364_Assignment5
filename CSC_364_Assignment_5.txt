@@ -59,7 +59,6 @@ get your code to compile without “unchecked cast” warnings.
 
 
 
-
 Deleting Elements 
 Removing elements in open addressing is slightly tricky. A naive approach is to replace removed
 elements with the value null. However, this may short-circuit later probing sequences, yielding

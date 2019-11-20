@@ -62,11 +62,15 @@ public class MyQuadraticHashSet<E> implements MySet<E> {
         }
     }
 
-
+    /* SHOULD BE FINISHED! NOT TESTED YET! */
     public boolean contains(E e) {
         // TO DO
-
-        return false; /*//////////////////////// TEMPORARY VALUE TO CLEAR ERRORS!!!!!!! /////////////////////////////*/
+        for (int i = 0; i < table.length; i++){
+            if(e.equals(table[i])){
+                return true;
+            }
+        }
+        return false;
     }
 
 
@@ -94,10 +98,10 @@ public class MyQuadraticHashSet<E> implements MySet<E> {
         return size == 0;
     }
 
-
+    /* SHOULD BE FINISHED! NOT TESTED YET! */
     public int size() {
         // TO DO
-        return 0; /*//////////////////////// TEMPORARY VALUE TO CLEAR ERRORS!!!!!!! /////////////////////////////*/
+        return this.size;
     }
 
 

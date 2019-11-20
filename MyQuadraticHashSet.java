@@ -42,6 +42,7 @@ public class MyQuadraticHashSet<E> implements MySet<E> {
     }
 
 
+    /* SHOULD BE FINISHED! NOT TESTED YET! */
     public MyQuadraticHashSet(double maxLoadFactor, int[] tableSizes) {
         // TO DO
         this.maxLoadFactor = maxLoadFactor;
@@ -49,6 +50,7 @@ public class MyQuadraticHashSet<E> implements MySet<E> {
         this.table = new Object[17]; /* Could also be: this.table = new Object[this.tableSizes[0]]; */
         this.thresholdSize = (int) (table.length * maxLoadFactor); /* I think this is right! */
     }
+
 
     /* SHOULD BE FINISHED! NOT TESTED YET! */
     public void clear() {
@@ -60,9 +62,9 @@ public class MyQuadraticHashSet<E> implements MySet<E> {
         }
     }
 
+
     public boolean contains(E e) {
         // TO DO
-
 
         return false; /*//////////////////////// TEMPORARY VALUE TO CLEAR ERRORS!!!!!!! /////////////////////////////*/
     }
@@ -73,15 +75,18 @@ public class MyQuadraticHashSet<E> implements MySet<E> {
         return false; /*//////////////////////// TEMPORARY VALUE TO CLEAR ERRORS!!!!!!! /////////////////////////////*/
     }
 
+
     @SuppressWarnings("unchecked")
     private void rehash() {
         // TO DO
     }
 
+
     public boolean remove(E e) {
         // TO DO
         return false; /*//////////////////////// TEMPORARY VALUE TO CLEAR ERRORS!!!!!!! /////////////////////////////*/
     }
+
 
     /* SHOULD BE FINISHED! NOT TESTED YET! */
     public boolean isEmpty() {
@@ -89,10 +94,12 @@ public class MyQuadraticHashSet<E> implements MySet<E> {
         return size == 0;
     }
 
+
     public int size() {
         // TO DO
         return 0; /*//////////////////////// TEMPORARY VALUE TO CLEAR ERRORS!!!!!!! /////////////////////////////*/
     }
+
 
     public java.util.Iterator<E> iterator() {
         throw new UnsupportedOperationException();

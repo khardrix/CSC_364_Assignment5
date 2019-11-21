@@ -55,10 +55,14 @@ public class MyQuadraticHashSet<E> implements MySet<E> {
     /* SHOULD BE FINISHED! NOT TESTED YET! */
     public void clear() {
         // TO DO
-        while(size > 0){
-            table[(this.size - 1)] = REMOVED;
-            numRemoved++;
-            size--;
+        int targetIndex = (table.length - 1);
+        while(size > 0 && targetIndex >= 0){
+            if(table[targetIndex] != REMOVED || table[targetIndex] != null){
+                table[targetIndex] = REMOVED;
+                numRemoved++;
+                size--;
+            }
+            targetIndex--;
         }
     }
 

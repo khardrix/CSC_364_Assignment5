@@ -69,11 +69,24 @@ public class MyQuadraticHashSet<E> implements MySet<E> {
     /* SHOULD BE FINISHED! NOT TESTED YET! */
     public boolean contains(E e) {
         // TO DO
-        for (int i = 0; i < table.length; i++){
-            if(e.equals(table[i])){
+        int probeCount = 0;
+        Object returnedValue;
+        int index;
+
+
+        while (probeCount < size) {
+            index = probeIndex((int) e, probeCount, table.length);
+            returnedValue = table[index];
+
+            if(e.equals(returnedValue)){
                 return true;
+            } else if(returnedValue == null || returnedValue.equals(REMOVED)){
+                return false;
             }
+
+            probeCount++;
         }
+
         return false;
     }
 
@@ -113,3 +126,12 @@ public class MyQuadraticHashSet<E> implements MySet<E> {
         throw new UnsupportedOperationException();
     }
 }
+
+/* THE BELOW CODE WOULD WORK (for the contains(E e) method), BUT NOT AS INTENDED AND WOULD RUN REALLY SLOW.
+        for (int i = 0; i < table.length; i++){
+            if(e.equals(table[i])){
+                return true;
+            }
+        }
+        return false;
+*/

@@ -73,9 +73,8 @@ public class MyQuadraticHashSet<E> implements MySet<E> {
         Object returnedValue;
         int index;
 
-
         while (probeCount < size) {
-            index = probeIndex((int) e, probeCount, table.length);
+            index = probeIndex((Integer) e, probeCount, table.length);
             returnedValue = table[index];
 
             if(e.equals(returnedValue)){
@@ -93,13 +92,46 @@ public class MyQuadraticHashSet<E> implements MySet<E> {
 
     public boolean add(E e) {
         // TO DO
-        return false; /*//////////////////////// TEMPORARY VALUE TO CLEAR ERRORS!!!!!!! /////////////////////////////*/
+        if(contains(e)){
+            return false;
+        }
+
+        // check to see if table needs to be resized and rehashed
+        if(size + numRemoved >= thresholdSize){
+            rehash();
+        }
+
+        int probeCount = 0;
+        // Object returnedValue;
+        int index;
+
+        while(probeCount < size){
+            index = probeIndex((Integer) e, probeCount, table.length);
+
+            if(table[index] == null || table[index].equals(REMOVED)){
+                table[index] = e;
+                size++;
+            }
+
+            probeCount++;
+        }
+
+        return true;
     }
 
 
+    // unchecked
     @SuppressWarnings("unchecked")
     private void rehash() {
         // TO DO
+        nextTableSizeIndex++;
+        Object[] tableCopy = new Object[tableSizes[nextTableSizeIndex]];
+        size = 0;
+        thresholdSize = (int)(table.length * maxLoadFactor);
+
+        for(Object element : table){
+            add((E)element);
+        }
     }
 
 

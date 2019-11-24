@@ -55,6 +55,7 @@ public class MyQuadraticHashSet<E> implements MySet<E> {
     /* SHOULD BE FINISHED! NOT TESTED YET! */
     public void clear() {
         // TO DO
+        /*
         int targetIndex = (table.length - 1);
         while(size > 0 && targetIndex >= 0){
             if(table[targetIndex] != REMOVED || table[targetIndex] != null){
@@ -64,29 +65,41 @@ public class MyQuadraticHashSet<E> implements MySet<E> {
             }
             targetIndex--;
         }
+        */
+        /*
+        size = 0;
+        table = new Object[tableSizes[nextTableSizeIndex]];
+        */
+
+        for(int i = 0; i < table.length; i++){
+            if(table[i] != null){
+                remove((E)table[i]);
+            }
+        }
     }
 
     /* SHOULD BE FINISHED! NOT TESTED YET! */
     public boolean contains(E e) {
         // TO DO
-        int probeCount = 0;
-        Object returnedValue;
-        int index;
+        if(isEmpty()){
+            return false;
+        } else{
+            int probeCount = 0;
+            int index;
 
-        while (probeCount <= size) {
-            index = probeIndex((Integer) e, probeCount, table.length);
-            returnedValue = table[index];
+            while(probeCount < size){
+                index = probeIndex((Integer)e, probeCount, table.length);
 
-            if(e.equals(returnedValue)){
-                return true;
-            } else if(returnedValue == null || returnedValue.equals(REMOVED)){
-                return false;
+                if(e.equals(table[index])){
+                    return true;
+                } else if(table[index] == null){
+                    return false;
+                } else{
+                    probeCount++;
+                }
             }
-
-            probeCount++;
+            return false;
         }
-
-        return false;
     }
 
 
@@ -95,32 +108,26 @@ public class MyQuadraticHashSet<E> implements MySet<E> {
         if(contains(e)){
             return false;
         }
-        size++;
-        // System.out.println("size + numRemoved = " + (size + numRemoved));
-        // check to see if table needs to be resized and rehashed
-        if(size + numRemoved >= thresholdSize){
-            nextTableSizeIndex++;
-            rehash();
-            // System.out.println("\n\nINTO THE IF STATEMENT TO REHASH!!!!!!!!!!!!!!!\n\n");
-        }
-        // System.out.println("\t\t\t\t\tMADE IT HERE!!!!!!!!!!!!!!!!!!!!!");
-        int probeCount = 0;
-        // Object returnedValue;
-        int index;
 
-        while(probeCount <= size){
-            index = probeIndex((Integer) e, probeCount, table.length);
+        if((size + numRemoved) > thresholdSize){
+            rehash();
+        }
+
+        int probeCount = 0;
+        int index;
+        size++;
+
+        while(probeCount < size){
+            index = probeIndex((Integer)e, probeCount, table.length);
 
             if(table[index] == null || table[index].equals(REMOVED)){
                 table[index] = e;
-                // System.out.println("table[" + index + "] = " + e.toString());
                 // size++;
             }
-
             probeCount++;
         }
 
-        return true;
+        return true; /*/////////////////////////// TEMPORARY VALUE TO CLEAR ERRORS!!!!!!! //////////////////////////*/
     }
 
 
@@ -128,10 +135,8 @@ public class MyQuadraticHashSet<E> implements MySet<E> {
     @SuppressWarnings("unchecked")
     private void rehash() {
         // TO DO
-        // nextTableSizeIndex++;
+        nextTableSizeIndex++;
         Object[] tableCopy = new Object[tableSizes[nextTableSizeIndex]];
-        // size = 0;
-        thresholdSize = (int)(table.length * maxLoadFactor);
 
         for(int i = 0; i < table.length; i++){
             tableCopy[i] = table[i];
@@ -139,8 +144,7 @@ public class MyQuadraticHashSet<E> implements MySet<E> {
 
         table = new Object[tableSizes[nextTableSizeIndex]];
         table = tableCopy;
-        // System.out.println("table's new size = " + table.length);
-        // thresholdSize = (int)(table.length * maxLoadFactor);
+        thresholdSize = (int) (table.length * maxLoadFactor);
     }
 
 
@@ -151,19 +155,21 @@ public class MyQuadraticHashSet<E> implements MySet<E> {
         }
 
         int index, probeCount = 0;
-        Object returnedValue;
+        // Object returnedValue;
 
         while(probeCount < size){
-            index = probeIndex((Integer)e, probeCount,table.length);
-            returnedValue = table[index];
+            index = probeIndex((Integer)e, probeCount, table.length);
+            // returnedValue = table[index];
 
-            if(returnedValue == null || returnedValue.equals(REMOVED)){
+            if(table[index] == null || table[index].equals(REMOVED)){
                 throw new RuntimeException();
-            } else if(e.equals(returnedValue)){
+            } else if(e.equals(table[index])){
                 size--;
+                numRemoved++;
                 table[index] = REMOVED;
                 return true;
             }
+            probeCount++;
         }
 
         return false; /*//////////////////////// TEMPORARY VALUE TO CLEAR ERRORS!!!!!!! /////////////////////////////*/

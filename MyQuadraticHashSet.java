@@ -66,16 +66,18 @@ public class MyQuadraticHashSet<E> implements MySet<E> {
             targetIndex--;
         }
         */
-        /*
+
         size = 0;
         table = new Object[tableSizes[nextTableSizeIndex]];
-        */
 
+
+        /*
         for(int i = 0; i < table.length; i++){
             if(table[i] != null){
                 remove((E)table[i]);
             }
         }
+        */
     }
 
     /* SHOULD BE FINISHED! NOT TESTED YET! */
@@ -87,8 +89,8 @@ public class MyQuadraticHashSet<E> implements MySet<E> {
             int probeCount = 0;
             int index;
 
-            while(probeCount < size){
-                index = probeIndex((Integer)e, probeCount, table.length);
+            while(probeCount <= size){
+                index = probeIndex(e.hashCode(), probeCount, table.length);
 
                 if(e.equals(table[index])){
                     return true;
@@ -100,6 +102,7 @@ public class MyQuadraticHashSet<E> implements MySet<E> {
             }
             return false;
         }
+
     }
 
 
@@ -109,7 +112,7 @@ public class MyQuadraticHashSet<E> implements MySet<E> {
             return false;
         }
 
-        if((size + numRemoved) > thresholdSize){
+        if((size + numRemoved) >= thresholdSize){
             rehash();
         }
 
@@ -118,20 +121,26 @@ public class MyQuadraticHashSet<E> implements MySet<E> {
         size++;
 
         while(probeCount < size){
-            index = probeIndex((Integer)e, probeCount, table.length);
+            index = probeIndex(e.hashCode(), probeCount, table.length);
 
-            if(table[index] == null || table[index].equals(REMOVED)){
+            if(table[index] == null){
                 table[index] = e;
                 // size++;
+                return true;
+            } else if(table[index].equals(REMOVED)){
+                table[index] = e;
+                numRemoved--;
+                return true;
             }
             probeCount++;
         }
 
-        return true; /*/////////////////////////// TEMPORARY VALUE TO CLEAR ERRORS!!!!!!! //////////////////////////*/
+        size--;
+        return false; /*/////////////////////////// TEMPORARY VALUE TO CLEAR ERRORS!!!!!!! //////////////////////////*/
     }
 
 
-    // unchecked
+
     @SuppressWarnings("unchecked")
     private void rehash() {
         // TO DO
@@ -158,7 +167,7 @@ public class MyQuadraticHashSet<E> implements MySet<E> {
         // Object returnedValue;
 
         while(probeCount < size){
-            index = probeIndex((Integer)e, probeCount, table.length);
+            index = probeIndex(e.hashCode(), probeCount, table.length);
             // returnedValue = table[index];
 
             if(table[index] == null || table[index].equals(REMOVED)){
